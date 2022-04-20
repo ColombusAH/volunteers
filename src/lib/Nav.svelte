@@ -1,5 +1,12 @@
-<script>
-	let isMenuOpen = false;
+<script lang="ts">
+	import { browser } from '$app/env';
+	import { goto } from '$app/navigation';
+	export let isMenuOpen = false;
+	export let activeRoute: '/' | '/gives' | '/about' = '/';
+	$: if (browser) {
+		goto(activeRoute);
+		isMenuOpen = false;
+	}
 </script>
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -7,7 +14,6 @@
 		<a class="navbar-item" href="https://bulma.io">
 			<img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" />
 		</a>
-
 		<a
 			class:is-active={isMenuOpen}
 			on:click={() => (isMenuOpen = !isMenuOpen)}
@@ -25,11 +31,11 @@
 
 	<div id="navbarBasicExample" class="navbar-menu" class:is-active={isMenuOpen}>
 		<div class="navbar-start">
-			<a class="navbar-item"> Home </a>
+			<a class="navbar-item" on:click={() => (activeRoute = '/')}> Home </a>
 
-			<a class="navbar-item"> About </a>
+			<a class="navbar-item" on:click={() => (activeRoute = '/about')}> About </a>
 
-			<a class="navbar-item"> More </a>
+			<a class="navbar-item" on:click={() => (activeRoute = '/gives')}> Gives </a>
 		</div>
 
 		<div class="navbar-end">

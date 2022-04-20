@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
+import { resolve } from "path";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -22,6 +23,11 @@ const config = {
 					scss: {
 						additionalData: '@use "src/variables.scss" as *;'
 					}
+				}
+			},
+			resolve: {
+				alias: {
+					$utils: resolve('./src/lib/utils'),
 				}
 			}
 		}
