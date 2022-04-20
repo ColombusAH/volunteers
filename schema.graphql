@@ -1,10 +1,10 @@
-type User {
+type User @auth(primary: "email") {
 	username: String!
 	email: String!
 	posts: [Post!] @relation
 }
 
-type Post {
+type Post @protected(membership: "User", rule: ["read", "write","create"]) {
 	title: String!
 	content: String!
 	author: User!
