@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { operationStore, query, setClient } from '@urql/svelte';
-	import { getCreateClient } from '../client';
+	import { client } from '../client';
 	import SystemMessageCompo from '$lib/components/systemMessage.svelte';
 	import Post from '$lib/components/Post.svelte';
-
 	const token = import.meta.env.VITE_PUBLIC_FAUNA_KEY;
-	setClient(getCreateClient(token));
+
+	setClient(client(token));
+
 	const allPosts = operationStore(
 		`query GetAllPosts($size: Int!, $cursor: String) {
         listsPosts(_size: $size, _cursor: $cursor) {
@@ -16,7 +17,6 @@
 				content
                 _ts
                 author {
-                    username
                     email
                 }
             }
@@ -30,8 +30,6 @@
 
 	onMount(() => {
 		const interval = setInterval(() => {
-			console.log({ time });
-
 			time = new Date();
 		}, 3000);
 
@@ -48,7 +46,6 @@
 {:else}
 	{#each $allPosts.data.listsPosts.data as post}
 		<Post
-			authorName={post.author.username}
 			authorEmail={post.author.email}
 			content={post.content}
 			timestamp={post._ts / 1000}

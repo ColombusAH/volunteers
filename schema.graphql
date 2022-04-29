@@ -1,5 +1,4 @@
 type User @auth(primary: "email") {
-	username: String!
 	email: String!
 	posts: [Post!] @relation
 }
